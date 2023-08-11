@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanchonete DB</title>
+    <link rel="stylesheet" href="\src\styles.css">
+
+</head>
+<body>
+    <header>
+        <h1>Cardapio</h1>
+    </header>
+    <div class="menu">
+        <!-- Itens do menu com botões de adicionar e remover aqui -->
+
+    </div>
+    <div class="carrinho">
+        <h2>Itens no Carrinho</h2>
+        <div id="itens-carrinho">
+            <!-- Itens adicionados ao carrinho serão exibidos aqui -->
+        </div>
+        <div class="total">
+            <span>Total:</span>
+            <span id="total">R$ 0,00</span>
+        </div>
+        <button id="pagar" onclick="pagar()">Pagar</button>
+    </div>
+    <label for="forma-pagamento">Forma de Pagamento:</label>
+        <select id="forma-pagamento" onchange="atualizarTotal()">
+            <option value="dinheiro">Dinheiro</option>
+            <option value="debito">Débito</option>
+            <option value="credito">Crédito</option>
+        </select>
+
+    <script>
+        const carrinho = [];
+        const cardapio = {
+            cafe: { descricao: 'Café', valor: 3.00 },
+            chantily: { descricao: 'Chantily (extra do Café)', valor: 1.50 },
+            suco: { descricao: 'Suco Natural', valor: 6.20 },
+            sanduiche: { descricao: 'Sanduíche', valor: 6.50 },
+            queijo: { descricao: 'Queijo (extra do Sanduíche)', valor: 2.00 },
+            salgado: { descricao: 'Salgado', valor: 7.25 },
+            combo1: { descricao: '1 Suco e 1 Sanduíche', valor: 9.50 },
+            combo2: { descricao: '1 Café e 1 Sanduíche', valor: 7.50 }
+        };
+        const taxasTributos = {
+            dinheiro: 0,
+            debito: 0.05,
+            credito: 0.03,
+        };
+
+        function addItem(item) {
+            // Verificar regras de negócio antes de adicionar ao carrinho
+            if (item === 'chantily' && !carrinho.includes('cafe')) {
+                alert('Chantily não pode ser pedido sem o café.');
+                return;
+            }
+            if (item === 'queijo' && !carrinho.includes('sanduiche')) {
+                alert('Queijo não pode ser pedido sem o sanduíche.');
+                return;
+            }
+
+            // Adicionar item ao carrinho
+            carrinho.push(item);
+
+            // Atualizar a exibição dos itens no carrinho
+            const itensCarrinho = document.getElementById('itens-carrinho');
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item';
+            itemDiv.textContent = cardapio[item].descricao;
+            const valorSpan = document.createElement('span');
+            valorSpan.textContent = `R$ ${cardapio[item].valor.toFixed(2).replace('.', ',')}`;
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remover';
+            removeButton.onclick = () => removeItem(item);
+            itemDiv.appendChild(valorSpan);
+            itemDiv.appendChild(removeButton);
+            itensCarrinho.appendChild(itemDiv);
+
+            // Atualizar o valor total
+            const totalSpan = document.getElementById('total');
+            const total = carrinho.reduce((acc, curr) => acc + cardapio[curr].valor, 0);
+            totalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function removeItem(item) {
+            // Remover item do carrinho
+            const index = carrinho.indexOf(item);
+            if (index !== -1) {
+                carrinho.splice(index, 1);
+            }
+
+            // Atualizar a exibição dos itens no carrinho
+            const itensCarrinho = document.getElementById('itens-carrinho');
+            itensCarrinho.innerHTML = '';
+            carrinho.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.textContent = cardapio[item].descricao;
+                const valorSpan = document.createElement('span');
+                valorSpan.textContent = `R$ ${cardapio[item].valor.toFixed(2).replace('.', ',')}`;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remover';
+                removeButton.onclick = () => removeItem(item);
+                itemDiv.appendChild(valorSpan);
+                itemDiv.appendChild(removeButton);
+                itensCarrinho.appendChild(itemDiv);
+            });
+
+            // Atualizar o valor total
+            const totalSpan = document.getElementById('total');
+            const total = carrinho.reduce((acc, curr) => acc + cardapio[curr].valor, 0);
+            totalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+            function atualizarTotal() {
+                const formaPagamentoSelect = document.getElementById('forma-pagamento');
+                const formaPagamento = formaPagamentoSelect.value;
+
+                const totalSpan = document.getElementById('total');
+                const total = parseFloat(totalSpan.textContent.replace('R$ ', '').replace(',', '.'));
+
+                const tributo = total * taxasTributos[formaPagamento];
+                const totalComTributo = total + tributo;
+
+                totalSpan.textContent = `R$ ${totalComTributo.toFixed(2).replace('.', ',')}`;
+            }
+
+            function pagar() {
+                const formaPagamentoSelect = document.getElementById('forma-pagamento');
+                const formaPagamento = formaPagamentoSelect.value;
+
+                const totalSpan = document.getElementById('total');
+                const total = parseFloat(totalSpan.textContent.replace('R$ ', '').replace(',', '.'));
+
+                const tributo = total * taxasTributos[formaPagamento];
+                const totalComTributo = total + tributo;
+
+
+                carrinho.length = 0; // Limpar o carrinho
+                const itensCarrinho = document.getElementById('itens-carrinho');
+                itensCarrinho.innerHTML = ''; // Limpar a exibição dos itens no carrinho
+                totalSpan.textContent = `R$ ${totalComTributo.toFixed(2).replace('.', ',')}`; // Atualizar o valor total com tributo
+                alert(`Pagamento efetuado com sucesso!\nTributo: R$ ${tributo.toFixed(2).replace('.', ',')}`);
+                location.reload(); // Recarrega a página
+            }
+
+
+        // Preencha a seção do menu com botões de adicionar para cada item
+        const menuDiv = document.querySelector('.menu');
+        for (const item in cardapio) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-menu';
+            const itemName = document.createElement('h3');
+            itemName.textContent = cardapio[item].descricao;
+            const itemPrice = document.createElement('p');
+            itemPrice.textContent = `R$ ${cardapio[item].valor.toFixed(2).replace('.', ',')}`;
+            const addButton = document.createElement('button');
+            addButton.textContent = 'Adicionar';
+            addButton.onclick = () => addItem(item);
+            itemDiv.appendChild(itemName);
+            itemDiv.appendChild(itemPrice);
+            itemDiv.appendChild(addButton);
+            menuDiv.appendChild(itemDiv);
+        }
+    </script>
+</body>
+</html>
