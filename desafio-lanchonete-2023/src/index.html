@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lanchonete DB</title>
-    <link rel="stylesheet" href="\src\styles.css">
+    <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
@@ -46,9 +46,9 @@
             combo2: { descricao: '1 Café e 1 Sanduíche', valor: 7.50 }
         };
         const taxasTributos = {
-            dinheiro: 0,
-            debito: 0.05,
-            credito: 0.03,
+            dinheiro: -0.05,
+            debito: 0,
+            credito: 0.03
         };
 
         function addItem(item) {
@@ -119,32 +119,48 @@
                 const formaPagamento = formaPagamentoSelect.value;
 
                 const totalSpan = document.getElementById('total');
-                const total = parseFloat(totalSpan.textContent.replace('R$ ', '').replace(',', '.'));
+                const total = carrinho.reduce((acc, curr) => acc + cardapio[curr].valor, 0);
+                
+                let totalComTributo;
 
-                const tributo = total * taxasTributos[formaPagamento];
-                const totalComTributo = total + tributo;
+                if (formaPagamento === 'dinheiro') {
+                    totalComTributo = total + (total * taxasTributos[formaPagamento]);
+                } else if (formaPagamento === 'debito') {
+                    totalComTributo = total + (total * taxasTributos[formaPagamento]);
+                } else if (formaPagamento === 'credito') {
+                    totalComTributo = total + (total * taxasTributos[formaPagamento]);
+                }
 
                 totalSpan.textContent = `R$ ${totalComTributo.toFixed(2).replace('.', ',')}`;
             }
 
-            function pagar() {
-                const formaPagamentoSelect = document.getElementById('forma-pagamento');
-                const formaPagamento = formaPagamentoSelect.value;
 
-                const totalSpan = document.getElementById('total');
-                const total = parseFloat(totalSpan.textContent.replace('R$ ', '').replace(',', '.'));
+        function pagar() {
+            const formaPagamentoSelect = document.getElementById('forma-pagamento');
+            const formaPagamento = formaPagamentoSelect.value;
 
-                const tributo = total * taxasTributos[formaPagamento];
-                const totalComTributo = total + tributo;
+            const totalSpan = document.getElementById('total');
+            const total = parseFloat(totalSpan.textContent.replace('R$ ', '').replace(',', '.'));
 
+            const tributo = total * taxasTributos[formaPagamento];
+            const totalComTributo = total + tributo;
 
-                carrinho.length = 0; // Limpar o carrinho
-                const itensCarrinho = document.getElementById('itens-carrinho');
-                itensCarrinho.innerHTML = ''; // Limpar a exibição dos itens no carrinho
-                totalSpan.textContent = `R$ ${totalComTributo.toFixed(2).replace('.', ',')}`; // Atualizar o valor total com tributo
+            carrinho.length = 0; // Limpar o carrinho
+            const itensCarrinho = document.getElementById('itens-carrinho');
+            itensCarrinho.innerHTML = ''; // Limpar a exibição dos itens no carrinho
+            totalSpan.textContent = `R$ ${totalComTributo.toFixed(2).replace('.', ',')}`; // Atualizar o valor total com tributo
+
+            if (tributo < 0) {
+                alert(`Pagamento efetuado com sucesso!\nDesconto: R$ ${Math.abs(tributo).toFixed(2).replace('.', ',')}`);
+            } else if (tributo > 0) {
                 alert(`Pagamento efetuado com sucesso!\nTributo: R$ ${tributo.toFixed(2).replace('.', ',')}`);
-                location.reload(); // Recarrega a página
+            } else {
+                alert('Pagamento efetuado com sucesso!');
             }
+
+            location.reload(); // Recarrega a página
+        }
+
 
 
         // Preencha a seção do menu com botões de adicionar para cada item
