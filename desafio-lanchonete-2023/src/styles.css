@@ -126,8 +126,8 @@ button {
 
 /* Estilo para as imagens dos itens do menu */
 .item-menu img {
-    max-width: 100%; /* Define a largura máxima da imagem */
-    height: auto; /* Mantém a proporção original da imagem */
+    max-width: 1500%; /* Define a largura máxima da imagem */
+    height: 50%; /* Mantém a proporção original da imagem */
 }
 .item-image {
     width: 150px;
