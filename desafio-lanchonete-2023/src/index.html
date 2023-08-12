@@ -12,6 +12,56 @@
         <h1>Cardapio</h1>
     </header>
     <div class="menu">
+
+    <div class="item-menu">
+        <img src="img/1-cafe.jpg" alt="Café">
+        <h3>Café</h3>
+        <p>R$ 3,00</p>
+        <button onclick="addItem('cafe')">Adicionar</button>
+    </div>
+    <div class="item-menu">
+        <img src="img/2-chantilly.jpg" alt="Chantilly">
+        <h3>Chantily (extra do Café)</h3>
+        <p>R$ 1,50</p>
+        <button onclick="addItem('chantily')">Adicionar</button>
+    </div>
+        <div class="item-menu">
+            <img src="img/3-suco.jpg" alt="Suco Natural">
+            <h3>Suco Natural</h3>
+            <p>R$ 6,20</p>
+            <button onclick="addItem('suco')">Adicionar</button>
+        </div>
+        <div class="item-menu">
+            <img src="img/4-sanduiche.jpg" alt="Sanduiche">
+            <h3>Sanduiche</h3>
+            <p>R$ 6,50</p>
+            <button onclick="addItem('sanduiche')">Adicionar</button>
+        </div>
+        <div class="item-menu">
+            <img src="img/5-queijo.jpg" alt="Queijo (extra do Sanduíche)">
+            <h3>Queijo (extra do Sanduíche)</h3>
+            <p>R$ 2,00</p>
+            <button onclick="addItem('queijo')">Adicionar</button>
+        </div>
+        <div class="item-menu">
+            <img src="img/6-salgado.jpg" alt="Salgado Misto">
+            <h3>Salgado Misto</h3>
+            <p>R$ 7,25</p>
+            <button onclick="addItem('salgado')">Adicionar</button>
+        </div>
+        <div class="item-menu">
+            <img src="img/7-sanduiche-com-suco.jpg" alt="Sanduiche + Suco">
+            <h3>Sanduiche com Suco</h3>
+            <p>R$ 9,50</p>
+            <button onclick="addItem('combo1')">Adicionar</button>
+        </div>
+        <div class="item-menu">
+            <img src="img/8-sanduiche-com-cafe.jpg" alt="Sanduiche + cafe">
+            <h3>Sanduiche com Café</h3>
+            <p>R$ 7,50</p>
+            <button onclick="addItem('combo2')">Adicionar</button>
+        </div>
+
         <!-- Itens do menu com botões de adicionar e remover aqui -->
 
     </div>
@@ -164,22 +214,7 @@
 
 
         // Preencha a seção do menu com botões de adicionar para cada item
-        const menuDiv = document.querySelector('.menu');
-        for (const item in cardapio) {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'item-menu';
-            const itemName = document.createElement('h3');
-            itemName.textContent = cardapio[item].descricao;
-            const itemPrice = document.createElement('p');
-            itemPrice.textContent = `R$ ${cardapio[item].valor.toFixed(2).replace('.', ',')}`;
-            const addButton = document.createElement('button');
-            addButton.textContent = 'Adicionar';
-            addButton.onclick = () => addItem(item);
-            itemDiv.appendChild(itemName);
-            itemDiv.appendChild(itemPrice);
-            itemDiv.appendChild(addButton);
-            menuDiv.appendChild(itemDiv);
-        }
+
     </script>
 </body>
 </html>

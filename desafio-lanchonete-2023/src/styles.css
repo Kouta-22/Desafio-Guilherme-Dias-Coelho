@@ -123,3 +123,9 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+/* Estilo para as imagens dos itens do menu */
+.item-menu img {
+    max-width: 100%; /* Define a largura máxima da imagem */
+    height: auto; /* Mantém a proporção original da imagem */
+}
