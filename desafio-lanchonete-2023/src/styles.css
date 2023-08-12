@@ -129,3 +129,9 @@ button {
     max-width: 100%; /* Define a largura máxima da imagem */
     height: auto; /* Mantém a proporção original da imagem */
 }
+.item-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover; /* Isso garante que a imagem mantenha a proporção e preencha o espaço definido */
+    border-radius: 10px; /* Adicione bordas arredondadas, se desejar */
+}
