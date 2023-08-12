@@ -56,7 +56,7 @@
             <button onclick="addItem('combo1')">Adicionar</button>
         </div>
         <div class="item-menu">
-            <img class="item-image" src="img/8-sanduiche-com-cafe.jpg" alt="Sanduiche + cafe">
+            <img class="item-image" src="img/8-sanduiche-com-cafe.jpg" alt="Sanduiche + cafe"  >
             <h3>Sanduiche com Café</h3>
             <p>R$ 7,50</p>
             <button onclick="addItem('combo2')">Adicionar</button>
@@ -74,14 +74,16 @@
             <span>Total:</span>
             <span id="total">R$ 0,00</span>
         </div>
-        <button id="pagar" onclick="pagar()">Pagar</button>
+        <div class="pagamento">
+            <label for="forma-pagamento">Forma de Pagamento:</label>
+            <select id="forma-pagamento" onchange="atualizarTotal()">
+                <option value="dinheiro">Dinheiro</option>
+                <option value="debito">Débito</option>
+                <option value="credito">Crédito</option>
+            </select>
+            <button id="pagar" onclick="pagar()">Pagar</button>
+        </div>
     </div>
-    <label for="forma-pagamento">Forma de Pagamento:</label>
-        <select id="forma-pagamento" onchange="atualizarTotal()">
-            <option value="dinheiro">Dinheiro</option>
-            <option value="debito">Débito</option>
-            <option value="credito">Crédito</option>
-        </select>
 
     <script>
         const carrinho = [];
