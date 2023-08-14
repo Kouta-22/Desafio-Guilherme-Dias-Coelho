@@ -24,7 +24,7 @@ header {
     padding: 10px;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    text-align: auto;
 }
 
 .carrinho {
@@ -83,7 +83,7 @@ header {
 .item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: right;
     padding: 10px 0;
     border-bottom: 1px solid #e0e0e0;
 }
@@ -135,3 +135,11 @@ button {
     object-fit: cover; /* Isso garante que a imagem mantenha a proporção e preencha o espaço definido */
     border-radius: 10px; /* Adicione bordas arredondadas, se desejar */
 }
+/* ... seu código CSS existente ... */
+
+/* Adicione o estilo para os preços dos itens no carrinho */
+/*
+.item-price {
+    text-align: 200px;
+}
+*/

@@ -18,22 +18,18 @@ Este é um projeto desenvolvido como parte de um desafio para criar um sistema d
 
 ## Como Usar
 
-1. Clone o repositório: `git clone https://github.com/seu-usuario/seu-repositorio.git`
+1. Clone o repositório: `https://github.com/Kouta-22/Desafio-Guilherme-Dias-Coelho`
+![gif01](src/img/clone.gif)
 2. Navegue até a pasta do projeto: `cd desafio-lanchonete`
-3. Instale as dependências: `npm install`
-4. Execute os testes: `npm test`
-![gif01](src/img/npm-test.gif)
-5. Execute o projeto: Abra o arquivo `index.html` em um navegador web.
-
+![gif02](src/img/local.gif)
+3. Execute os testes: `npm test`
+![gif03](src/img/npm-test.gif)
+4. Execute o projeto: Abra o arquivo `index.html` em um navegador web.
+![gif04](src/img/ItenAdd.gif)
 ## Estrutura do Projeto
 
 - `/src`: Contém os arquivos JavaScript do projeto.
 - `/test`: Contém os arquivos de teste automatizado.
 
-## Licença
 
-Este projeto está sob a licença XYZ. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
----
-
-Feito com :heart: por [Seu Nome](https://github.com/Kouta-22/Desafio-Guilherme-Dias-Coelho)
+Feito por [Guilherme Dias Coelho](https://github.com/Kouta-22/Desafio-Guilherme-Dias-Coelho)

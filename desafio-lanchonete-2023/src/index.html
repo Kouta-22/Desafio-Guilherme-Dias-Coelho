@@ -9,13 +9,13 @@
 </head>
 <body>
     <header>
-        <h1>Cardapio</h1>
+        <h1>Cardapio0</h1>
     </header>
     <div class="menu">
 
     <div class="item-menu">
         <img class="item-image" src="img/1-cafe.jpg" alt="Café">
-        <h3>Café</h3>
+        <h3>Café expresso</h3>
         <p>R$ 3,00</p>
         <button onclick="addItem('cafe')">Adicionar</button>
     </div>
@@ -77,8 +77,8 @@
         <div class="pagamento">
             <label for="forma-pagamento">Forma de Pagamento:</label>
             <select id="forma-pagamento" onchange="atualizarTotal()">
-                <option value="dinheiro">Dinheiro</option>
                 <option value="debito">Débito</option>
+                <option value="dinheiro">Dinheiro</option>
                 <option value="credito">Crédito</option>
             </select>
             <button id="pagar" onclick="pagar()">Pagar</button>
@@ -97,6 +97,7 @@
             combo1: { descricao: '1 Suco e 1 Sanduíche', valor: 9.50 },
             combo2: { descricao: '1 Café e 1 Sanduíche', valor: 7.50 }
         };
+        
         const taxasTributos = {
             dinheiro: -0.05,
             debito: 0,
@@ -121,30 +122,71 @@
             const itensCarrinho = document.getElementById('itens-carrinho');
             const itemDiv = document.createElement('div');
             itemDiv.className = 'item';
-            itemDiv.textContent = cardapio[item].descricao;
+
+            // Cria um elemento para a descrição do item
+            const descricaoSpan = document.createElement('span');
+            descricaoSpan.textContent = cardapio[item].descricao;
+
+            // Cria um elemento para o preço do item
             const valorSpan = document.createElement('span');
+            valorSpan.className = 'item-price';
             valorSpan.textContent = `R$ ${cardapio[item].valor.toFixed(2).replace('.', ',')}`;
+
             const removeButton = document.createElement('button');
             removeButton.textContent = 'Remover';
             removeButton.onclick = () => removeItem(item);
+
+            // Adiciona os elementos à div do item
+            itemDiv.appendChild(descricaoSpan);
             itemDiv.appendChild(valorSpan);
             itemDiv.appendChild(removeButton);
+
+            // Adiciona a div do item à lista de itens do carrinho
             itensCarrinho.appendChild(itemDiv);
 
             // Atualizar o valor total
             const totalSpan = document.getElementById('total');
             const total = carrinho.reduce((acc, curr) => acc + cardapio[curr].valor, 0);
             totalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            atualizarTotal();
         }
+
+
 
         function removeItem(item) {
             // Remover item do carrinho
             const index = carrinho.indexOf(item);
             if (index !== -1) {
                 carrinho.splice(index, 1);
-            }
 
-            // Atualizar a exibição dos itens no carrinho
+                // Verificar se o item removido é um sanduíche
+                if (item === 'sanduiche') {
+                    // Remover também o queijo, se estiver no carrinho
+                    const queijoIndex = carrinho.indexOf('queijo');
+                    if (queijoIndex !== -1) {
+                        carrinho.splice(queijoIndex, 1);
+                        alert('O queijo foi removido do pedido.');
+                    }
+                }
+                
+                // Verificar se o item removido é o café
+                if (item === 'cafe') {
+                    // Remover também o chantily, se estiver no carrinho
+                    const chantilyIndex = carrinho.indexOf('chantily');
+                    if (chantilyIndex !== -1) {
+                        carrinho.splice(chantilyIndex, 1);
+                        alert('O chantily foi removido do pedido.');
+                    }
+                }
+
+                // Chamar a função para atualizar a exibição dos itens no carrinho
+                updateCartDisplay();
+                atualizarTotal();
+            }
+        }
+
+        // Função para atualizar a exibição dos itens no carrinho
+        function updateCartDisplay() {
             const itensCarrinho = document.getElementById('itens-carrinho');
             itensCarrinho.innerHTML = '';
             carrinho.forEach(item => {
@@ -161,11 +203,8 @@
                 itensCarrinho.appendChild(itemDiv);
             });
 
-            // Atualizar o valor total
-            const totalSpan = document.getElementById('total');
-            const total = carrinho.reduce((acc, curr) => acc + cardapio[curr].valor, 0);
-            totalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
         }
+
             function atualizarTotal() {
                 const formaPagamentoSelect = document.getElementById('forma-pagamento');
                 const formaPagamento = formaPagamentoSelect.value;
@@ -176,7 +215,7 @@
                 let totalComTributo;
 
                 if (formaPagamento === 'dinheiro') {
-                    totalComTributo = total + (total * taxasTributos[formaPagamento]);
+                    totalComTributo = total - ((total*5)/100);
                 } else if (formaPagamento === 'debito') {
                     totalComTributo = total + (total * taxasTributos[formaPagamento]);
                 } else if (formaPagamento === 'credito') {
@@ -211,6 +250,7 @@
             }
 
             location.reload(); // Recarrega a página
+            atualizarTotal();
         }
 
 
